@@ -1,0 +1,136 @@
+import React, { useState } from 'react';
+import { Terminal, Github, Mail, ExternalLink, Cpu, Check } from 'lucide-react';
+
+interface Project {
+  title: string;
+  description: string;
+  tech: string[];
+  link: string;
+}
+
+export default function App() {
+  const [copied, setCopied] = useState(false);
+  const email = "ktstrandphd@gmail.com";
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const projects: Project[] = [
+    {
+      title: "Encrypted C++ Chat Client",
+      description: "Asynchronous TCP socket routing via Boost.Asio and Elliptic-Curve Diffie-Hellman key exchange.",
+      tech: ["C++", "Boost.Asio", "Crypto", "Sockets"],
+      link: "https://github.com/KTStrandPhD"
+    },
+    {
+      title: "MarketTicker",
+      description: "Terminal-based multi-category financial market monitor built in Python using the Textual library.",
+      tech: ["Python", "Textual", "AsyncIO", "Finance"],
+      link: "https://github.com/KTStrandPhD"
+    },
+    {
+      title: "SandboxAuditor",
+      description: "Linux administration environment provisioner and privilege auditing toolkit with automated rbash configs.",
+      tech: ["Bash", "Python", "Linux Security"],
+      link: "https://github.com/KTStrandPhD"
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 font-mono selection:bg-emerald-500 selection:text-zinc-950 flex flex-col items-center justify-center p-4 sm:p-6">
+      <div className="max-w-xl w-full bg-zinc-900/80 border border-zinc-800 rounded-xl shadow-2xl overflow-hidden backdrop-blur-md">
+        
+        {/* Terminal Header Bar */}
+        <div className="bg-zinc-900 px-4 py-3 border-b border-zinc-800 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 rounded-full bg-rose-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+          </div>
+          <div className="text-xs text-zinc-400 flex items-center gap-1">
+            <Terminal size={14} className="text-emerald-400" />
+            <span>ktstrand@ubuntu-workstation:~</span>
+          </div>
+          <div className="w-12"></div> {/* spacer */}
+        </div>
+
+        {/* Card Body */}
+        <div className="p-6 sm:p-8 space-y-6">
+          
+          {/* Profile Intro */}
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">
+              <Cpu size={12} />
+              <span>Ph.D. Physicist & Systems Engineer</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Kyle Strand, Ph.D.</h1>
+            <p className="text-sm text-zinc-400 leading-relaxed">
+              Specializing in high-performance C/C++, Python, Linux infrastructure, cryptography, and automated computational systems.
+            </p>
+          </div>
+
+          {/* Quick Action Links */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <a 
+              href="https://github.com/KTStrandPhD" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-3 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700/50 transition text-sm group"
+            >
+              <div className="flex items-center gap-3">
+                <Github size={18} className="text-emerald-400" />
+                <span>GitHub Portfolio</span>
+              </div>
+              <ExternalLink size={14} className="text-zinc-500 group-hover:text-zinc-300 transition" />
+            </a>
+
+            <button 
+              onClick={handleCopyEmail}
+              className="flex items-center justify-between p-3 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700/50 transition text-sm group text-left w-full cursor-pointer"
+            >
+              <div className="flex items-center gap-3">
+                <Mail size={18} className="text-emerald-400" />
+                <span className="truncate">Copy Email</span>
+              </div>
+              {copied ? <Check size={14} className="text-emerald-400" /> : <span className="text-xs text-zinc-500">Click</span>}
+            </button>
+          </div>
+
+          {/* Featured Projects Section */}
+          <div className="space-y-3 pt-2">
+            <h2 className="text-xs uppercase tracking-wider text-zinc-500 font-semibold">Featured Engineering Projects</h2>
+            <div className="space-y-3">
+              {projects.map((proj, idx) => (
+                <div key={idx} className="p-3.5 rounded-lg bg-zinc-950/50 border border-zinc-800 hover:border-zinc-700 transition space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold text-emerald-400">{proj.title}</span>
+                    <a href={proj.link} target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white">
+                      <ExternalLink size={13} />
+                    </a>
+                  </div>
+                  <p className="text-xs text-zinc-400">{proj.description}</p>
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {proj.tech.map((t, i) => (
+                      <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Footer note */}
+          <div className="pt-2 text-center border-t border-zinc-800/80 text-xs text-zinc-500">
+            Hosted on GitHub Pages • Built with Vite, React & TypeScript
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
